@@ -42,20 +42,7 @@ The package intentionally does not create backups. Your application may use `spa
 
 ## Installation
 
-Until the package is submitted to Packagist, add the GitHub repository to the consuming application's `composer.json`:
-
-```json
-{
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Izarych/laravel-filament-operations"
-    }
-  ]
-}
-```
-
-Install a tagged release:
+Install the package from Packagist and publish its configuration:
 
 ```bash
 composer require izarych/laravel-filament-operations:^0.1
@@ -202,20 +189,7 @@ MIT. See [LICENSE](LICENSE).
 
 ## Установка
 
-Добавьте репозиторий в `composer.json` проекта:
-
-```json
-{
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Izarych/laravel-filament-operations"
-    }
-  ]
-}
-```
-
-Установите пакет и опубликуйте конфигурацию:
+Установите пакет из Packagist и опубликуйте конфигурацию:
 
 ```bash
 composer require izarych/laravel-filament-operations:^0.1
