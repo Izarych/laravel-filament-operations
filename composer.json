@@ -1,0 +1,31 @@
+{
+  "name": "izarych/laravel-filament-operations",
+  "description": "Configurable backup and log management pages for Filament panels.",
+  "keywords": [
+    "laravel",
+    "filament",
+    "backups",
+    "logs"
+  ],
+  "license": "MIT",
+  "type": "library",
+  "require": {
+    "php": "^8.3",
+    "filament/filament": "^4.12 || ^5.0",
+    "laravel/framework": "^11.0 || ^12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Izarych\\FilamentOperations\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Izarych\\FilamentOperations\\FilamentOperationsServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
