@@ -33,6 +33,16 @@ The package intentionally does not create backups. Your application may use `spa
 - Optional log clear and delete actions, disabled by default.
 - A normal Filament plugin: register it only in panels where it belongs.
 
+## Screenshots / Скриншоты
+
+### Log viewer / Просмотр логов
+
+![Log viewer](docs/images/log-viewer.png)
+
+### Backup browser / Просмотр бэкапов
+
+![Backup browser](docs/images/backup-browser.png)
+
 ## Requirements
 
 - PHP 8.3 or newer.
