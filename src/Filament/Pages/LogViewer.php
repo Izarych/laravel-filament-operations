@@ -16,10 +16,6 @@ final class LogViewer extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static ?string $navigationLabel = 'Logs';
-
-    protected static ?string $title = 'Application logs';
-
     protected static ?int $navigationSort = 110;
 
     protected string $view = 'filament-operations::pages.log-viewer';
@@ -50,7 +46,17 @@ final class LogViewer extends Page
 
     public static function getNavigationGroup(): string|UnitEnum|null
     {
-        return config('filament-operations.navigation_group');
+        return config('filament-operations.navigation_group') ?? __('filament-operations::operations.navigation.group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('filament-operations::operations.logs.navigation_label');
+    }
+
+    public function getTitle(): string
+    {
+        return __('filament-operations::operations.logs.title');
     }
 
     public static function canAccess(): bool
@@ -89,7 +95,7 @@ final class LogViewer extends Page
         $this->loadLogs($logStorage);
 
         Notification::make()
-            ->title($this->loadError === null ? 'Logs updated' : 'Unable to update logs')
+            ->title($this->loadError === null ? __('filament-operations::operations.logs.notifications.updated') : __('filament-operations::operations.logs.notifications.update_failed'))
             ->color($this->loadError === null ? 'success' : 'danger')
             ->send();
     }
@@ -103,10 +109,10 @@ final class LogViewer extends Page
         try {
             $logStorage->clear($this->selectedRoot, $this->selectedLog);
             $this->loadLogs($logStorage);
-            Notification::make()->title('Log cleared')->success()->send();
+            Notification::make()->title(__('filament-operations::operations.logs.notifications.cleared'))->success()->send();
         } catch (Throwable $exception) {
             report($exception);
-            Notification::make()->title('Unable to clear log')->body($exception->getMessage())->danger()->send();
+            Notification::make()->title(__('filament-operations::operations.logs.notifications.clear_failed'))->body($exception->getMessage())->danger()->send();
         }
     }
 
@@ -121,10 +127,10 @@ final class LogViewer extends Page
             $this->selectedRoot = null;
             $this->selectedLog = null;
             $this->loadLogs($logStorage);
-            Notification::make()->title('Log deleted')->success()->send();
+            Notification::make()->title(__('filament-operations::operations.logs.notifications.deleted'))->success()->send();
         } catch (Throwable $exception) {
             report($exception);
-            Notification::make()->title('Unable to delete log')->body($exception->getMessage())->danger()->send();
+            Notification::make()->title(__('filament-operations::operations.logs.notifications.delete_failed'))->body($exception->getMessage())->danger()->send();
         }
     }
 
@@ -133,25 +139,36 @@ final class LogViewer extends Page
     {
         return [
             Action::make('refresh')
-                ->label('Refresh')
+                ->label(__('filament-operations::operations.actions.refresh'))
                 ->icon(Heroicon::OutlinedArrowPath)
                 ->color('gray')
                 ->action('refreshLogs'),
             Action::make('clear')
-                ->label('Clear selected log')
+                ->label(__('filament-operations::operations.logs.actions.clear'))
                 ->icon(Heroicon::OutlinedNoSymbol)
                 ->color('warning')
                 ->visible(fn (): bool => (bool) config('filament-operations.logs.allow_clear') && $this->selectedLog !== null)
                 ->requiresConfirmation()
+                ->modalHeading(__('filament-operations::operations.logs.actions.clear_heading'))
+                ->modalDescription(__('filament-operations::operations.logs.actions.clear_description'))
+                ->modalSubmitActionLabel(__('filament-operations::operations.logs.actions.clear_confirm'))
                 ->action('clearSelectedLog'),
             Action::make('delete')
-                ->label('Delete selected log')
+                ->label(__('filament-operations::operations.logs.actions.delete'))
                 ->icon(Heroicon::OutlinedTrash)
                 ->color('danger')
                 ->visible(fn (): bool => (bool) config('filament-operations.logs.allow_delete') && $this->selectedLog !== null)
                 ->requiresConfirmation()
+                ->modalHeading(__('filament-operations::operations.logs.actions.delete_heading'))
+                ->modalDescription(__('filament-operations::operations.logs.actions.delete_description'))
+                ->modalSubmitActionLabel(__('filament-operations::operations.logs.actions.delete_confirm'))
                 ->action('deleteSelectedLog'),
         ];
+    }
+
+    public function refreshSelectedLog(LogStorage $logStorage): void
+    {
+        $this->loadLogs($logStorage);
     }
 
     private function loadLogs(LogStorage $logStorage): void

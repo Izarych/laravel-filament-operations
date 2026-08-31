@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'navigation_group' => env('FILAMENT_OPERATIONS_NAVIGATION_GROUP', 'System'),
+    'navigation_group' => env('FILAMENT_OPERATIONS_NAVIGATION_GROUP'),
 
     'backups' => [
         'enabled' => env('FILAMENT_OPERATIONS_BACKUPS_ENABLED', false),

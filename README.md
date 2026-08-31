@@ -45,7 +45,7 @@ The package intentionally does not create backups. Your application may use `spa
 Install the package from Packagist and publish its configuration:
 
 ```bash
-composer require izarych/laravel-filament-operations:^0.1
+composer require izarych/laravel-filament-operations:^0.2
 php artisan vendor:publish --tag=filament-operations-config
 ```
 
@@ -90,6 +90,58 @@ When configuration is cached, refresh it after changing environment values:
 ```bash
 php artisan config:cache
 ```
+
+## Language
+
+The interface follows Laravel's active locale. English and Russian are included. With `APP_LOCALE=ru`, the navigation group, pages, actions, confirmations, and empty states are displayed in Russian.
+
+To adjust individual phrases, publish the translation files:
+
+```bash
+php artisan vendor:publish --tag=filament-operations-translations
+```
+
+Edit only the required lines in `lang/vendor/filament-operations/{locale}/operations.php`. Published lines override the package defaults and are preserved when the package is updated.
+
+## Styling
+
+The package loads its own responsive CSS only on its backup and log pages. It uses the active Filament color palette, so the page automatically follows the panel's primary color and dark mode.
+
+After installing or updating the package, build Filament assets:
+
+```bash
+php artisan filament:assets
+```
+
+For small visual adjustments, register a CSS file after your panel's other assets:
+
+```php
+use Filament\Support\Assets\Css;
+
+->assets([
+    Css::make('operations-overrides', resource_path('css/filament/operations.css')),
+])
+```
+
+The package's selectors are prefixed with `.filament-operations`, so custom rules stay isolated:
+
+```css
+.filament-operations__workspace {
+    border-radius: 1.25rem;
+}
+
+.filament-operations__preview {
+    background: #172033;
+}
+```
+
+For a complete layout change, publish the Blade templates and edit the copies in your application:
+
+```bash
+php artisan vendor:publish --tag=filament-operations-views
+```
+
+Laravel will then use `resources/views/vendor/filament-operations/pages/` before the package templates. Re-run `php artisan filament:assets` after changing the package CSS or deploying a new release.
 
 ## Authorization
 
@@ -192,7 +244,7 @@ MIT. See [LICENSE](LICENSE).
 Установите пакет из Packagist и опубликуйте конфигурацию:
 
 ```bash
-composer require izarych/laravel-filament-operations:^0.1
+composer require izarych/laravel-filament-operations:^0.2
 php artisan vendor:publish --tag=filament-operations-config
 ```
 
@@ -227,6 +279,58 @@ FILAMENT_OPERATIONS_LOGS_ALLOW_DELETE=false
 ```bash
 php artisan config:cache
 ```
+
+## Язык
+
+Интерфейс использует активную локаль Laravel. В пакет уже включены русский и английский. При `APP_LOCALE=ru` раздел навигации, страницы, действия, подтверждения и пустые состояния будут на русском языке.
+
+Чтобы изменить отдельные формулировки, опубликуйте переводы:
+
+```bash
+php artisan vendor:publish --tag=filament-operations-translations
+```
+
+Меняйте только нужные строки в `lang/vendor/filament-operations/{locale}/operations.php`. Опубликованные строки имеют приоритет над переводами пакета и не перезаписываются при обновлении.
+
+## Стили
+
+Пакет загружает собственный адаптивный CSS только на страницах бэкапов и логов. Он использует активную палитру Filament, поэтому автоматически подстраивается под основной цвет панели и тёмную тему.
+
+После установки или обновления соберите assets Filament:
+
+```bash
+php artisan filament:assets
+```
+
+Для небольших изменений добавьте CSS-файл после остальных assets панели:
+
+```php
+use Filament\Support\Assets\Css;
+
+->assets([
+    Css::make('operations-overrides', resource_path('css/filament/operations.css')),
+])
+```
+
+Все селекторы пакета начинаются с `.filament-operations`, поэтому стили не затронут остальные страницы:
+
+```css
+.filament-operations__workspace {
+    border-radius: 1.25rem;
+}
+
+.filament-operations__preview {
+    background: #172033;
+}
+```
+
+Для полной переработки разметки опубликуйте Blade-шаблоны:
+
+```bash
+php artisan vendor:publish --tag=filament-operations-views
+```
+
+Laravel будет брать шаблоны из `resources/views/vendor/filament-operations/pages/` раньше package views. После изменения CSS пакета или деплоя новой версии снова выполните `php artisan filament:assets`.
 
 ## Доступ
 

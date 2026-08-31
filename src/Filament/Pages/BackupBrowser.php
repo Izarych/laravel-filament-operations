@@ -17,10 +17,6 @@ final class BackupBrowser extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCircleStack;
 
-    protected static ?string $navigationLabel = 'Backups';
-
-    protected static ?string $title = 'Database backups';
-
     protected static ?int $navigationSort = 100;
 
     protected string $view = 'filament-operations::pages.backup-browser';
@@ -36,7 +32,17 @@ final class BackupBrowser extends Page
 
     public static function getNavigationGroup(): string|UnitEnum|null
     {
-        return config('filament-operations.navigation_group');
+        return config('filament-operations.navigation_group') ?? __('filament-operations::operations.navigation.group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('filament-operations::operations.backups.navigation_label');
+    }
+
+    public function getTitle(): string
+    {
+        return __('filament-operations::operations.backups.title');
     }
 
     public static function canAccess(): bool
@@ -54,7 +60,7 @@ final class BackupBrowser extends Page
         $this->loadBackups($backupStorage);
 
         Notification::make()
-            ->title($this->loadError === null ? 'Backup list updated' : 'Unable to update backups')
+            ->title($this->loadError === null ? __('filament-operations::operations.backups.notifications.updated') : __('filament-operations::operations.backups.notifications.update_failed'))
             ->color($this->loadError === null ? 'success' : 'danger')
             ->send();
     }
@@ -64,7 +70,7 @@ final class BackupBrowser extends Page
     {
         return [
             Action::make('refresh')
-                ->label('Refresh')
+                ->label(__('filament-operations::operations.actions.refresh'))
                 ->icon(Heroicon::OutlinedArrowPath)
                 ->color('gray')
                 ->action('refreshBackups'),
